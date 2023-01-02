@@ -1,4 +1,4 @@
-# example-extension-javascript
+# groot
 Node 14
 
 ## Project setup
