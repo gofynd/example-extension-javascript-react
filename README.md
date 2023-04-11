@@ -13,10 +13,10 @@ npm run build
 
 ### To start react development server
 ```
-npm run start
+npm run serve
 ```
 
-### start server
+### To start backend server to lauch extension
 ```
-npm run serve
+npm run start
 ```
