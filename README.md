@@ -16,7 +16,7 @@ npm run build
 npm run serve
 ```
 
-### To start backend server to lauch extension
+### To start backend server to launch extension
 ```
 npm run start
 ```
