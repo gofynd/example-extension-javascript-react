@@ -14,9 +14,6 @@ if (
 }
 
 const Endpoints = {
-  GET_TEST_API() {
-    return urlJoin(envVars.EXAMPLE_MAIN_URL, "/api/v1/test-api");
-  },
   GET_ALL_APPLICATIONS() {
     return urlJoin(envVars.EXAMPLE_MAIN_URL, "/api/v1.0/applications");
   },

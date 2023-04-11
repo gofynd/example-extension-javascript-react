@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Form from "react-bootstrap/Form";
 
-import "./home.css";
+import "./style/home.css";
 import Loader from "../components/Loader";
+import { Input } from "@gofynd/nitrozen-react";
 import MainService from "../services/main-service";
+
 
 export default function Home() {
   const [pageLoading, setPageLoading] = useState(false);
@@ -47,45 +48,45 @@ export default function Home() {
   }
 
   return (
-    <div className="fp-extension-landing-page">
+    <>
       {pageLoading ? (
         <Loader />
       ) : (
-        <div className="content">
-          <Form>
-            <Form.Group className="mb-3" controlId="SearchForm.ControlInput">
-              <Form.Label className="fp-extension-saleschannel-title">
-                Sales Channel
-              </Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Search Sales Channels"
-                onChange={searchApplication}
-              />
-            </Form.Group>
-          </Form>
+        <div className="application-container">
 
-          <div className="fp-extension-application-list">
+          <div className="saleschannel-title">Sales Channel</div>
+
+          <div className="search-box">
+            <Input
+              showSearchIcon
+              placeholder='search sales channels'
+              disabled={ Object.keys(allApplications).length === 0 ? true : false }
+              onChange={searchApplication}
+            />
+          </div>
+          
+          <div className="sales-channels-container">
             {applicationList.map((application) => {
               return (
-                <div className="fp-extension-sales-channels-container">
-                  <div className="fp-extension-app-box">
+                  <div className="app-box">
+
                     <div className="logo">
-                      <img src={application.logo} alt="logo" />
+                      <img src={application.logo ? application.logo : "https://platform.fynd.com/public/admin/assets/pngs/fynd-store.png"} alt="logo" />
                     </div>
+
                     <div className="line-1">{application.name}</div>
+
                     <div className="line-2">{application.domain.name}</div>
-                    <div className="fp-extension-list-btn-cont"></div>
                   </div>
-                  {applicationList.length % 3 === 2 && (
-                    <div className="fp-extension-app-box hidden"></div>
-                  )}
-                </div>
               );
             })}
+            {applicationList.length % 3 === 2 && (
+              <div className="app-box hidden"></div>
+            )}
           </div>
+          
         </div>
       )}
-    </div>
+    </>
   );
 }

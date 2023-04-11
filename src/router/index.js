@@ -9,11 +9,6 @@ const router = createBrowserRouter([
     element: <App />,
     loader: routeGuard,
   }
-  // {
-  //   path: "/",
-  //   element: <></>,
-  //   loader: () => {return redirect("/company/:company_id/")}
-  // }
 ]);
 
 export default router;
