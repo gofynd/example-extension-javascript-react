@@ -8,9 +8,6 @@ axios.interceptors.request.use((config) => {
 });
 
 const MainService = {
-  getTestApi(params = {}) {
-    return axios.get(URLS.GET_TEST_API());
-  },
   getAllApplications(params = {}) {
     return axios.get(URLS.GET_ALL_APPLICATIONS());
   },

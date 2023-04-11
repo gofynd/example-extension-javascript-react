@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@gofynd/fdk-client-javascript": "^1.0.0",
+    "@gofynd/nitrozen-react": "^2.0.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.2.1",
     "bootstrap": "^5.2.3",
     "react": "^18.2.0",
-    "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.6.1",
     "react-scripts": "5.0.1",
@@ -19,12 +20,11 @@
     "ioredis": "^5.2.2",
     "convict": "^6.2.3",
     "cookie-parser": "^1.4.6",
-    "fdk-client-javascript": "git+https://github.com/gofynd/fdk-client-javascript.git#0.1.31",
-    "fdk-extension-javascript": "git+https://github.com/gofynd/fdk-extension-javascript.git#v0.5.2"
+    "fdk-extension-javascript": "git+https://github.com/gofynd/fdk-extension-javascript.git#v0.5.3"
   },
   "scripts": {
-    "serve": "node index.js",
-    "start": "react-scripts start",
+    "start": "node index.js",
+    "serve": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest --updateSnapshot --projects src app --no-cache --detectOpenHandles --json --outputFile=./coverage/coverage.json",
     "eject": "react-scripts eject"

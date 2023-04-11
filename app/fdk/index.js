@@ -20,7 +20,7 @@ let fdkExtension = setupFdk({
     },
     storage: new RedisStorage(appRedis,"exapmple-fynd-platform-extension"), // add your prefix
     access_mode: "offline",
-    cluster:  "https://api.fyndx0.de"// this is optional by default it points to prod.
+    cluster:  config.extension.fp_api_server // this is optional (default: "https://api.fynd.com")
 });
 
 

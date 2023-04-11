@@ -25,7 +25,7 @@ let config = convict({
     },
     fp_api_server: {
       doc: "FP API Server",
-      default: "",
+      default: "https://api.fynd.com",
       env: "EXTENSION_CLUSTER_URL",
     }
   },

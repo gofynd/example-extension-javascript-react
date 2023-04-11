@@ -2,11 +2,6 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/test-api', (req, res, next) => {
-    res.json({
-        "hello": "hello"
-    });
-});
 
 // Get applications list
 router.get('/applications', async function view(req, res, next) {
