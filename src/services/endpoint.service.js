@@ -14,9 +14,12 @@ if (
 }
 
 const Endpoints = {
-  GET_ALL_APPLICATIONS() {
-    return urlJoin(envVars.EXAMPLE_MAIN_URL, "/api/v1.0/applications");
+  GET_ALL_PRODUCTS() {
+    return urlJoin(envVars.EXAMPLE_MAIN_URL, "/api/v1.0/products");
   },
+  GET_ALL_APPLICATION_PRODUCTS(applicationId) {
+    return urlJoin(envVars.EXAMPLE_MAIN_URL, `/api/v1.0/${applicationId}/products`)
+  }
 };
 
 export default Endpoints;

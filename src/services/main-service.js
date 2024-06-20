@@ -8,9 +8,12 @@ axios.interceptors.request.use((config) => {
 });
 
 const MainService = {
-  getAllApplications(params = {}) {
-    return axios.get(URLS.GET_ALL_APPLICATIONS());
+  getAllProducts() {
+    return axios.get(URLS.GET_ALL_PRODUCTS());
   },
+  getAllApplicationProducts(params = {}) {
+    return axios.get(URLS.GET_ALL_APPLICATION_PRODUCTS(params.application_id));
+  }
 };
 
 export default MainService;

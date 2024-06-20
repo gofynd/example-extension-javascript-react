@@ -20,7 +20,8 @@
     "ioredis": "^5.2.2",
     "convict": "^6.2.3",
     "cookie-parser": "^1.4.6",
-    "fdk-extension-javascript": "git+https://github.com/gofynd/fdk-extension-javascript.git#v0.6.0-beta.3"
+    "fdk-extension-javascript": "git+https://github.com/gofynd/fdk-extension-javascript.git#v0.6.0-beta.3",
+    "lodash.isempty": "^4.4.0"
   },
   "scripts": {
     "start": "node index.js",
