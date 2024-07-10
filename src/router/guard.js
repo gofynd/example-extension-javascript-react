@@ -1,4 +1,3 @@
-import { setCompany } from '../helper/utils';
 import { setCompany, setApplication } from '../helper/utils';
 
 export const routeGuard = (to, from, next) => {
