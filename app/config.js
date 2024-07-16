@@ -41,7 +41,7 @@ let config = convict({
   port: {
     doc: 'The port this extension will bind to',
     format: 'port',
-    default: 3000,
+    default: 8080,
     env: 'PORT',
     arg: 'port',
   },
