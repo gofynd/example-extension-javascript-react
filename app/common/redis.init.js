@@ -13,20 +13,11 @@ function connect(name, uri) {
   db.on('connect', () => {
     console.log(`Redis ${name} connected.`);
   });
-  db.on('ready', () => {
-    console.log(`Redis ${name} is ready`);
-  });
   db.on('error', () => {
     console.error(`Redis ${name} got error`);
   });
-  db.on('close', () => {
-    console.log(`Redis ${name} is closed`);
-  });
   db.on('reconnecting', () => {
     console.log(`Redis ${name} got error`);
-  });
-  db.on('reconnecting', () => {
-    console.log(`Redis ${name} is ended`);
   });
   return db;
 }
