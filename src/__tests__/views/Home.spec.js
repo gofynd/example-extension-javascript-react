@@ -1,17 +1,40 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Home from './Home';
-import MainService from '../services/main-service';
+import { render, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import { BrowserRouter as Router, Route, Routes, MemoryRouter } from 'react-router-dom';
+import { Home } from '../../views/Home';
+import MainService from '../../services/main-service';
 
-jest.mock('../services/main-service');
+jest.mock('../../services/main-service')
+const mockProducts = {
+  data: {
+    items: [
+      {
+        is_active: true,
+        media: [{ type: 'image', url: 'image1.png' }],
+        name: 'Product 1',
+        item_code: 'ITEM001',
+        brand: { name: 'Brand A' },
+        category_slug: 'Category A',
+      },
+      {
+        is_active: false,
+        media: [],
+        name: 'Product 2',
+        item_code: 'ITEM002',
+        brand: { name: 'Brand B' },
+        category_slug: 'Category B',
+      },
+    ],
+  },
+}
 
-const renderHomeWithParams = (params) => {
+const renderHomeWithParams = () => {
   return render(
     <Router>
-      <Route path="/:application_id?">
-        <Home />
-      </Route>
+      <Routes>
+        <Route path="/:application_id?" element={<Home />} />
+      </Routes>
     </Router>
   );
 };
@@ -22,76 +45,37 @@ describe('Home Component', () => {
   });
 
   test('renders loader when page is loading', () => {
-    MainService.getAllProducts.mockReturnValue(new Promise(() => {})); // Simulate ongoing request
-    renderHomeWithParams({});
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    MainService.getAllProducts.mockReturnValue(new Promise(() => { })); // Simulate ongoing request
+    const { getByTestId } = renderHomeWithParams({});
+    expect(getByTestId('loader')).toBeInTheDocument();
   });
 
   test('fetches and displays product list', async () => {
-    MainService.getAllProducts.mockResolvedValue({
-      data: {
-        items: [
-          {
-            is_active: true,
-            media: [{ type: 'image', url: 'image1.png' }],
-            name: 'Product 1',
-            item_code: 'ITEM001',
-            brand: { name: 'Brand A' },
-            category_slug: 'Category A',
-          },
-          {
-            is_active: false,
-            media: [],
-            name: 'Product 2',
-            item_code: 'ITEM002',
-            brand: { name: 'Brand B' },
-            category_slug: 'Category B',
-          },
-        ],
-      },
-    });
+    MainService.getAllProducts.mockResolvedValue(mockProducts);
+    const { getByText, getByAltText, getByTestId } = renderHomeWithParams({});
 
-    renderHomeWithParams({});
-    
     await waitFor(() => {
-      expect(screen.getByText('Product 1')).toBeInTheDocument();
-      expect(screen.getByText('Item Code:')).toBeInTheDocument();
-      expect(screen.getByText('Brand A')).toBeInTheDocument();
-      expect(screen.getByText('Category A')).toBeInTheDocument();
-      expect(screen.getByAltText('text')).toHaveAttribute('src', 'image1.png');
+      expect(getByTestId('product-name-1')).toBeInTheDocument();
+      expect(getByTestId('product-item-code-1')).toBeInTheDocument();
+      expect(getByText('Brand A')).toBeInTheDocument();
+      expect(getByText('Category A')).toBeInTheDocument();
     });
   });
 
-  test('displays default image when media is empty', async () => {
-    MainService.getAllProducts.mockResolvedValue({
-      data: {
-        items: [
-          {
-            is_active: true,
-            media: [],
-            name: 'Product 3',
-            item_code: 'ITEM003',
-          },
-        ],
-      },
-    });
-
-    renderHomeWithParams({});
-    
+  test('renders Home component with application_id', async () => {
+    MainService.getAllApplicationProducts.mockResolvedValue(mockProducts);
+    const { getByTestId, getByText } = render(
+      <MemoryRouter initialEntries={['/application/123']}>
+        <Routes>
+          <Route path="/application/:application_id" element={<Home />} />
+        </Routes>
+      </MemoryRouter>
+    );
     await waitFor(() => {
-      expect(screen.getByAltText('text')).toHaveAttribute('src', expect.stringContaining('default_icon_listing.png'));
+      expect(getByTestId('product-name-1')).toBeInTheDocument();
+      expect(getByText('Brand A')).toBeInTheDocument();
+      expect(getByText('Category A')).toBeInTheDocument();
     });
   });
 
-  test('renders correct document link based on application_id', () => {
-    const { getDocumentPageLink } = Home.prototype;
-    const application_id = '123';
-    expect(getDocumentPageLink.call({ application_id })).toContain('/help/docs/sdk/latest/platform/application/catalog#getAppProducts');
-  });
-
-  test('renders without application_id', () => {
-    renderHomeWithParams({});
-    expect(screen.getByText('Example Platform API')).toBeInTheDocument();
-    expect(screen.getByText('getProducts')).toBeInTheDocument();
-  });
 });

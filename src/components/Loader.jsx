@@ -4,7 +4,7 @@ import "./loader.css";
 
 export default function loader({ helperText }) {
   return (
-    <div className="loader">
+    <div className="loader" data-testid="loader">
       <img src={loaderGif} alt="loader GIF" />
       {helperText && <div>{helperText}</div>}
     </div>

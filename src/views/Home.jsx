@@ -8,7 +8,7 @@ import grayDot from "../assets/grey-dot.svg";
 import isEmpty from "lodash/isEmpty";
 import DEFAULT_NO_IMAGE from "../assets/default_icon_listing.png";
 
-export default function Home() {
+export const Home = () => {
   const [pageLoading, setPageLoading] = useState(false);
   const [product_list, setProductList] = useState([]);
   const DOC_URL_PATH =
@@ -73,18 +73,18 @@ export default function Home() {
         <Loader />
       ) : (
         <div className="products-container">
-          <div class="title">
+          <div className="title">
             This is an example extension home page user interface.
           </div>
 
-          <div class="section">
-            <div class="heading">
+          <div className="section">
+            <div className="heading">
               <span>Example Platform API</span> :{" "}
               <a href={getDocumentPageLink()} target="_blank">
                 {isApplicationLaunch() ? 'getAppProducts' : 'getProducts'}
               </a>
             </div>
-            <div class="description">
+            <div className="description">
               This is an illustrative Platform API call to fetch the list of
               products in this company. Go to your extension folder’s
               ‘root/app/routes/’ directory to check how to call Platform API and
@@ -95,28 +95,29 @@ export default function Home() {
           <div>
             {product_list.map((product, index) => {
               return (
-                <div class="product-list-container flex-row">
+                <div className="product-list-container flex-row" key={`product-${product.name}-${index}`}>
                   {product.is_active ? (
-                    <img class="mr-r-12" src={greenDot} />
+                    <img className="mr-r-12" src={greenDot} />
                   ) : (
-                    <img class="mr-r-12" src={grayDot} />
+                    <img className="mr-r-12" src={grayDot} />
                   )}
-                  <div class="card-avatar mr-r-12">
+                  <div className="card-avatar mr-r-12">
                     <img src={productProfileImage(product.media)} alt="text" />
                   </div>
-                  <div class="flex-column">
-                    <div class="flex-row">
-                      <div class="product-name" id={`product-name-${index}`}>
+                  <div className="flex-column">
+                    <div className="flex-row">
+                      <div className="product-name" id={`product-name-${index}`} data-testid={`product-name-${index}`}>
                         {product.name}
                       </div>
-                      <div class="product-item-code">|</div>
+                      <div className="product-item-code">|</div>
                       {product.item_code && (
                         <>
-                          <span class="product-item-code">
+                          <span className="product-item-code">
                             Item Code:
                             <span
-                              class="cl-RoyalBlue"
+                              className="cl-RoyalBlue"
                               id={`product-item-code-${index}`}
+                              data-testid={`product-item-code-${index}`}
                             >
                               {product.item_code}
                             </span>
@@ -126,7 +127,7 @@ export default function Home() {
                     </div>
                     {product.brand && (
                       <div
-                        class="product-brand-name"
+                        className="product-brand-name"
                         id={`product-brand-name-${index}`}
                       >
                         {product.brand.name}
@@ -134,7 +135,7 @@ export default function Home() {
                     )}
                     {product.category_slug && (
                       <div
-                        class="product-brand-name"
+                        className="product-brand-name"
                         id={`product-category-slug-${index}`}
                       >
                         Category <span>: </span>{" "}
