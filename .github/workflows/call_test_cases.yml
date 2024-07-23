@@ -31,7 +31,7 @@ jobs:
     - name: Install packages and run test cases
       run: |
         npm install
-        npm run test:vue
+        npm run test:react
         npm run test:node
 
     - name: Coveralls (Uploading test report)
