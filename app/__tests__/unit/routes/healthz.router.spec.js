@@ -1,5 +1,5 @@
 const request = require('../utils/server')()
-const { appRedis } = require('../../../common/redis.init');
+const { appRedis } = require('../../../redis.init');
 
 describe('Health check', () => {
     afterAll(async () => {

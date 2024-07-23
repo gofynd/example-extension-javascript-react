@@ -1,5 +1,5 @@
 require("dotenv").config();
-require("./app/common/redis.init");
+require("./app/redis.init");
 const config = require("./app/config");
 const app = require("./app/server");
 

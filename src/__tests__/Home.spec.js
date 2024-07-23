@@ -2,10 +2,10 @@ import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { BrowserRouter as Router, Route, Routes, MemoryRouter } from 'react-router-dom';
-import { Home } from '../../views/Home';
-import MainService from '../../services/main-service';
+import { Home } from '../pages/Home';
+import ProductService from '../services/product.service';
 
-jest.mock('../../services/main-service')
+jest.mock('../services/product.service')
 const mockProducts = {
   data: {
     items: [
@@ -16,6 +16,7 @@ const mockProducts = {
         item_code: 'ITEM001',
         brand: { name: 'Brand A' },
         category_slug: 'Category A',
+        id:"2"
       },
       {
         is_active: false,
@@ -24,6 +25,7 @@ const mockProducts = {
         item_code: 'ITEM002',
         brand: { name: 'Brand B' },
         category_slug: 'Category B',
+        id:"1"
       },
     ],
   },
@@ -45,13 +47,13 @@ describe('Home Component', () => {
   });
 
   test('renders loader when page is loading', () => {
-    MainService.getAllProducts.mockReturnValue(new Promise(() => { })); // Simulate ongoing request
+    ProductService.getAllProducts.mockReturnValue(new Promise(() => { })); // Simulate ongoing request
     const { getByTestId } = renderHomeWithParams({});
     expect(getByTestId('loader')).toBeInTheDocument();
   });
 
   test('fetches and displays product list', async () => {
-    MainService.getAllProducts.mockResolvedValue(mockProducts);
+    ProductService.getAllProducts.mockResolvedValue(mockProducts);
     const { getByText, getByAltText, getByTestId } = renderHomeWithParams({});
 
     await waitFor(() => {
@@ -63,7 +65,7 @@ describe('Home Component', () => {
   });
 
   test('renders Home component with application_id', async () => {
-    MainService.getAllApplicationProducts.mockResolvedValue(mockProducts);
+    ProductService.getAllApplicationProducts.mockResolvedValue(mockProducts);
     const { getByTestId, getByText } = render(
       <MemoryRouter initialEntries={['/application/123']}>
         <Routes>

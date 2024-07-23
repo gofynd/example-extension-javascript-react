@@ -37,6 +37,26 @@ Using npm:
 npm run start
 ```
 
+### Serve frontend
+Using yarn:
+```
+yarn run serve
+```
+Using npm:
+```
+npm run serve
+```
+
+### Start local server and serve frontend
+Using yarn:
+```
+yarn run dev-start
+```
+Using npm:
+```
+npm run dev-start
+```
+
 ### Build
 Using yarn:
 ```

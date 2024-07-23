@@ -1,8 +1,9 @@
 const Redis = require('ioredis');
-const config = require('../config');
+const config = require('./config');
 
 function connect(name, uri) {
   const db = new Redis(uri, {
+    // Handle reconnection logic for specific errors
     reconnectOnError: function (err) {
       var targetError = 'EAI_AGAIN';
       if (err.message.includes(targetError)) {

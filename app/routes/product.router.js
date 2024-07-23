@@ -1,7 +1,5 @@
 const express = require('express');
-
 const router = express.Router();
-
 
 // Get products list
 router.get('/products', async function view(req, res, next) {

@@ -1,4 +1,4 @@
-import URLS from "./endpoint.service";
+import URLS from "./domain.service";
 import axios from "axios";
 import { getCompany } from "../helper/utils";
 
@@ -7,13 +7,16 @@ axios.interceptors.request.use((config) => {
   return config;
 });
 
-const MainService = {
+const ProductService = {
   getAllProducts() {
     return axios.get(URLS.GET_ALL_PRODUCTS());
   },
   getAllApplicationProducts(params = {}) {
     return axios.get(URLS.GET_ALL_APPLICATION_PRODUCTS(params.application_id));
+  },
+  getEnvVars(){
+    return axios.get(URLS.GET_ENV_VARS());
   }
 };
 
-export default MainService;
+export default ProductService;
