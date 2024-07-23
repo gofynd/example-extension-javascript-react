@@ -31,7 +31,8 @@ jobs:
     - name: Install packages and run test cases
       run: |
         npm install
-        npm run test
+        npm run test:react
+        npm run test:node
 
     - name: Coveralls (Uploading test report)
       if: ${{ steps.get_branch.outputs.branch == 'master' }}
