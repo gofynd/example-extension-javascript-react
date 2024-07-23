@@ -15,9 +15,7 @@ export const Home = () => {
   const DOC_URL_PATH = "/help/docs/sdk/latest/platform/company/catalog/#getProducts";
   const DOC_APP_URL_PATH = "/help/docs/sdk/latest/platform/application/catalog#getAppProducts";
   const { application_id } = useParams();
-  // useEffect(() =>{
-  //   getEnvVars()
-  // },[]);
+  const moonlight_URL =  window.env?.fp_api_server || 'https://api.fynd.com'
   
   useEffect(() => {
     isApplicationLaunch() ? fetchApplicationProducts() : fetchProducts();
@@ -47,14 +45,6 @@ export const Home = () => {
     }
   };
   
-  // const getEnvVars = async () => {
-  //   try {
-  //     window.env = await ProductService.getEnvVars();
-  //     console.log(window.env, "=======>")
-  //   } catch (e) {
-  //     console.log(e)
-  //   } 
-  // };
 
   const productProfileImage = (media) => {
     if (!media || !media.length) {
@@ -65,7 +55,7 @@ export const Home = () => {
   };
 
   const getDocumentPageLink = () => {
-    return "https://api.uat.fyndx1.de"
+    return moonlight_URL
       .replace("api", "partners")
       .concat(isApplicationLaunch() ? DOC_APP_URL_PATH : DOC_URL_PATH);
   };

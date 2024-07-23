@@ -28,6 +28,7 @@
     "build": "react-scripts build",
     "test:node": "jest --config app/jest.config.js app --no-cache --detectOpenHandles --json --outputFile=./coverage/coverage.json",
     "test:react": "jest --updateSnapshot --projects src --no-cache --detectOpenHandles --json --outputFile=./coverage/coverage.json",
+    "test": "npm run test:node && npm run test:react",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

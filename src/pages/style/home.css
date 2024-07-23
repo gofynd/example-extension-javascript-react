@@ -131,6 +131,9 @@ body {
   gap: 2px;
 }
 
+.product-category{
+  font-size: 12px;
+}
 .cl-RoyalBlue {
   color: #2e31be;
   margin-left: 2px;

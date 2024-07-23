@@ -28,6 +28,8 @@ npm install
 ```
 
 ### Start local server
+Starts the local server in watch mode, meaning it will automatically restart when changes are detected.
+
 Using yarn:
 ```
 yarn run start
@@ -38,6 +40,8 @@ npm run start
 ```
 
 ### Serve frontend
+Serves the frontend of the application in watch mode, automatically refreshing when changes are made.
+
 Using yarn:
 ```
 yarn run serve
@@ -48,6 +52,8 @@ npm run serve
 ```
 
 ### Start local server and serve frontend
+Starts both the local server and serves the frontend in watch mode.
+
 Using yarn:
 ```
 yarn run dev-start
@@ -58,6 +64,8 @@ npm run dev-start
 ```
 
 ### Build
+Compiles the application for production.
+
 Using yarn:
 ```
 yarn run build
@@ -68,6 +76,8 @@ npm run build
 ```
 
 ### Lints and fixes files
+Checks for linting errors and automatically fixes them if possible.
+
 Using yarn:
 ```
 yarn run lint
@@ -75,16 +85,6 @@ yarn run lint
 Using npm
 ```
 npm run lint
-```
-
-### Start server
-Using yarn
-```
-yarn start
-```
-Using npm
-```
-npm start
 ```
 
 ### Testing
@@ -100,6 +100,7 @@ npm run test:node
 ```
 
 **Test Frontend**
+
 Using yarn
 ```
 yarn run test:react
