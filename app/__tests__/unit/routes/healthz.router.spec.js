@@ -1,10 +1,8 @@
 const request = require('../utils/server')()
-const { appRedis } = require('../../../redis.init');
 
 describe('Health check', () => {
     afterAll(async () => {
         request.app.close()
-        appRedis.quit();
     })
     it('GET healthz it should response with 200', async () => {
         const res = await request.get('/_healthz');

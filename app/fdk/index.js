@@ -1,12 +1,11 @@
 const { setupFdk } = require("fdk-extension-javascript/express");
-const { RedisStorage } = require("fdk-extension-javascript/express/storage");
-const config =  require("../config");
-const { appRedis } = require("../redis.init");
+const { SQLiteStorage } = require("fdk-extension-javascript/express/storage");
+const { sqliteInstance } = require("../sqlite.init");
 
 let fdkExtension = setupFdk({
-    api_key: config.extension.api_key,
-    api_secret: config.extension.api_secret,
-    base_url: config.extension.base_url,
+    api_key: process.env.EXTENSION_API_KEY,
+    api_secret: process.env.EXTENSION_API_SECRET,
+    base_url: process.env.EXTENSION_BASE_URL,
     callbacks: {
         auth: async (req) => {
             // Write you code here to return initial launch url after auth process complete
@@ -21,9 +20,8 @@ let fdkExtension = setupFdk({
             // If task is time taking then process it async on other process.
         }
     },
-    storage: new RedisStorage(appRedis,"exapmple-fynd-platform-extension"), // add your prefix
-    access_mode: "offline",
-    cluster:  config.extension.fp_api_server // this is optional (default: "https://api.fynd.com")
+    storage: new SQLiteStorage(sqliteInstance,"exapmple-fynd-platform-extension"), // add your prefix
+    access_mode: "online"
 });
 
 

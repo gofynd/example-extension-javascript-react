@@ -6,8 +6,6 @@ import ProductService from "../services/product.service";
 import greenDot from "../assets/green-dot.svg";
 import grayDot from "../assets/grey-dot.svg";
 import DEFAULT_NO_IMAGE from "../assets/default_icon_listing.png";
-import root from "window-or-global";
-let envVars = root.env || {};
 
 export const Home = () => {
   const [pageLoading, setPageLoading] = useState(false);
@@ -15,7 +13,7 @@ export const Home = () => {
   const DOC_URL_PATH = "/help/docs/sdk/latest/platform/company/catalog/#getProducts";
   const DOC_APP_URL_PATH = "/help/docs/sdk/latest/platform/application/catalog#getAppProducts";
   const { application_id } = useParams();
-  const moonlight_URL =  window.env?.fp_api_server || 'https://api.fynd.com'
+  const documentationUrl ='https://api.fynd.com'
   
   useEffect(() => {
     isApplicationLaunch() ? fetchApplicationProducts() : fetchProducts();
@@ -55,7 +53,7 @@ export const Home = () => {
   };
 
   const getDocumentPageLink = () => {
-    return moonlight_URL
+    return documentationUrl
       .replace("api", "partners")
       .concat(isApplicationLaunch() ? DOC_APP_URL_PATH : DOC_URL_PATH);
   };
@@ -74,7 +72,7 @@ export const Home = () => {
 
           <div className="section">
             <div className="heading">
-              <span>Example Platform API</span> :{" "}
+              <span>Example {isApplicationLaunch() ? 'Application API' : 'Platform API'}</span> :
               <a href={getDocumentPageLink()} target="_blank" rel="noopener noreferrer">
                 {isApplicationLaunch() ? 'getAppProducts' : 'getProducts'}
               </a>
@@ -82,7 +80,7 @@ export const Home = () => {
             <div className="description">
               This is an illustrative Platform API call to fetch the list of
               products in this company. Go to your extension folder’s
-              ‘root/app/routes/’ directory to check how to call Platform API and
+              '/app/routes/' directory to check how to call Platform API and
               start calling API you require.
             </div>
           </div>
