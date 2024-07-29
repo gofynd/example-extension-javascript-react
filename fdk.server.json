@@ -1,4 +1,0 @@
-{
-    "dev": "npm run start",
-    "install": "mvn clean build"
-}
