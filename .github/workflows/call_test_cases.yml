@@ -1,6 +1,6 @@
 name: Run test cases
 
-on: pull_request
+on: [pull_request, push]
 
 jobs:
   run-test-cases:
@@ -28,13 +28,19 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Install packages and run test cases
+    - name: Install packages and run tests for node
+      run: |
+        npm install
+        npm run test
+
+    - name: Install packages and run tests for react
+      working-directory: ./web
       run: |
         npm install
         npm run test
 
     - name: Coveralls (Uploading test report)
-      if: ${{ steps.get_branch.outputs.branch == 'master' }}
+      #if: ${{ steps.get_branch.outputs.branch == 'master' || steps.get_branch.outputs.branch == 'fpco-38359-test-case-setup' }}
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
