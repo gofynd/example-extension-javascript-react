@@ -24,7 +24,8 @@ module.exports = {
         '!**/index.js',
         "!**/coverage/**",
         "!**/coverage_output.js/**",
-        "!**/coverage_output.json/**"
+        "!**/coverage_output.json/**",
+        "!**/start-dev.js"
     ],
     bail: true
 };
