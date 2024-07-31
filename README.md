@@ -1,5 +1,5 @@
 
-# Build a Fynd Extension using node.js + react.js
+# Build a Fynd Extension using Node.js + React.js
 
 
 [![Coverage Status][coveralls-badge]]([coveralls-url])
