@@ -102,5 +102,5 @@ Feel free to configure and run your preferred database on your server to meet yo
 2. [fdk-extension-javascript](https://github.com/gofynd/fdk-extension-javascript): This library streamlines the setup of authentication for accessing Fynd Platform APIs. It also simplifies the process of subscribing to webhooks for receiving real-time notifications.
 
 
-[coveralls-badge]: https://coveralls.io/repos/github/gofynd/example-extension-javascript/badge.svg?branch=main&&kill_cache=1
-[coveralls-url]: https://coveralls.io/github/gofynd/example-extension-javascript?branch=main
+[coveralls-badge]: https://coveralls.io/repos/github/gofynd/example-extension-javascript-react/badge.svg?branch=main&&kill_cache=1
+[coveralls-url]: https://coveralls.io/github/gofynd/example-extension-javascript-react?branch=main
