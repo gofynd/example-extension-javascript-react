@@ -3,12 +3,12 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const path = require("path");
 const sqlite3 = require('sqlite3').verbose();
-const productRouter = require("./product.router");
 const serveStatic = require("serve-static");
 const { readFileSync } = require('fs');
 const { setupFdk } = require("fdk-extension-javascript/express");
 const { SQLiteStorage } = require("fdk-extension-javascript/express/storage");
 const sqliteInstance = new sqlite3.Database('session_storage.db');
+const productRouter = express.Router();
 
 
 const fdkExtension = setupFdk({
@@ -53,6 +53,32 @@ app.use(serveStatic(STATIC_PATH, { index: false }));
 
 // FDK extension handler and API routes (extension launch routes)
 app.use("/", fdkExtension.fdkHandler);
+
+productRouter.get('/', async function view(req, res, next) {
+    try {
+        const {
+            platformClient
+        } = req;
+        const data = await platformClient.catalog.getProducts()
+        return res.json(data);
+    } catch (err) {
+        next(err);
+    }
+});
+
+// Get products list for application
+productRouter.get('/application/:application_id', async function view(req, res, next) {
+    try {
+        const {
+            platformClient
+        } = req;
+        const { application_id } = req.params;
+        const data = await platformClient.application(application_id).catalog.getAppProducts()
+        return res.json(data);
+    } catch (err) {
+        next(err);
+    }
+});
 
 // FDK extension api route which has auth middleware and FDK client instance attached to it.
 platformApiRoutes.use('/products', productRouter);
