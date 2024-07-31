@@ -20,64 +20,62 @@ This project outlines the development process for a Fynd extension that displays
 
 
 
-### Project setup
-
-### Install dependencies
+## Install dependencies
 
 **Install backend dependency**
 
 Using yarn:
-```
+```shell
 yarn install
 ```
 Using npm:
-```
+```shell
 npm install
 ```
 
 **Install frontend dependency**
 
 Using yarn:
-```
+```shell
 yarn install --cwd ./frontend
 ```
 Using npm:
-```
+```shell
 npm install --prefix ./frontend
 ```
 
 
-### Local development
+## Local development
 To start development locally you need to start tunnel on `FRONTEND_PORT` defined in .env file to start tunnel you can use `fdk extension preview-url --port  <FRONTEND_PORT>`, it will provide partners panel URL  
 
 > Before visiting partners panel URL provided by preview-url command you need to hit below command in new terminal
 
 This command will start backend and frontend server in watch mode and changes you make locally will be directly visible in partners panel
-```
+```shell
 node start-dev.js
 ```
 
-### Build for production deployment
+## Build for production deployment
 Build frontend.
 
 Using yarn:
-```
+```shell
 cd frontend && yarn run build
 ```
 Using npm:
-```
+```shell
 cd frontend && npm run build
 ```
 
 
-### Backend API Proxying
+## API Proxy for HMR
 
 When developing your application, the Vite development server is configured to handle API requests through a proxy. This setup forwards API calls to a backend server, specified by the  `BACKEND_PORT` environment variable, ensuring a smooth integration between your frontend and backend during development.
 
 ### Proxy Configuration
 
 The Vite development server uses the following proxy configuration to direct API requests:
-```
+```js
 const proxyOptions = {
   target: `http://127.0.0.1:${process.env.BACKEND_PORT}`,
   changeOrigin: false,
@@ -86,7 +84,7 @@ const proxyOptions = {
 }
 ```
 
-### Database Configuration
+## Database Configuration
 
 By default, this template uses an `SQLite` database to store session data. SQLite is sufficient for development purpose only, it may not be suitable for all production scenarios. The best database for your application depends on your data requirements and query patterns.
 
@@ -98,7 +96,7 @@ If your app requires a more robust database solution, you can easily extend the 
 
 Feel free to configure and run your preferred database on your server to meet your specific needs.
 
-### Tech Stack
+## Tech Stack
 1. [fdk-client-javascript](https://github.com/gofynd/fdk-client-javascript): This library contains all the methods to call Fynd platform APIs.
 2. [fdk-extension-javascript](https://github.com/gofynd/fdk-extension-javascript): This library streamlines the setup of authentication for accessing Fynd Platform APIs. It also simplifies the process of subscribing to webhooks for receiving real-time notifications.
 
