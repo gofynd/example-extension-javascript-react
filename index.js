@@ -1,10 +1,9 @@
-require("dotenv").config();
-require("./app/common/redis.init");
-const config = require("./app/config");
-const app = require("./app/server");
+'use strict';
 
-const port = config.port || 8080;
+require("dotenv").config();
+const app = require("./server");
+const port = process.env.BACKEND_PORT || 8080;
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Example app listening at http://localhost:${port}`)
 });
