@@ -1,6 +1,7 @@
 
 # Build a Fynd Extension using node.js + react.js
 
+
 [![Coverage Status][coveralls-badge]]([coveralls-url])
 
 This project outlines the development process for a Fynd extension that displays product listings for a company and its associated applications. By following this guide, you'll be able to set up the development environment, build the extension locally, and understand the testing procedures.
@@ -25,22 +26,22 @@ This project outlines the development process for a Fynd extension that displays
 **Install backend dependency**
 
 Using yarn:
-```
+```shell
 yarn install
 ```
 Using npm:
-```
+```shell
 npm install
 ```
 
 **Install frontend dependency**
 
 Using yarn:
-```
+```shell
 yarn install --cwd ./web
 ```
 Using npm:
-```
+```shell
 npm install --prefix ./web
 ```
 
@@ -51,7 +52,7 @@ To start development locally you need to start tunnel on `FRONTEND_PORT` defined
 > Before visiting partners panel URL provided by preview-url command you need to hit below command in new terminal
 
 This command will start backend and frontend server in watch mode and changes you make locally will be directly visible in partners panel
-```
+```shell
 node start-dev.js
 ```
 
@@ -59,11 +60,11 @@ node start-dev.js
 Build frontend.
 
 Using yarn:
-```
+```shell
 cd web && yarn run build
 ```
 Using npm:
-```
+```shell
 cd web && npm run build
 ```
 
@@ -75,7 +76,7 @@ When developing your application, the Vite development server is configured to h
 ### Proxy Configuration
 
 The Vite development server uses the following proxy configuration to direct API requests:
-```
+```js
 const proxyOptions = {
   target: `http://127.0.0.1:${process.env.BACKEND_PORT}`,
   changeOrigin: false,
