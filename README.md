@@ -84,6 +84,18 @@ const proxyOptions = {
 }
 ```
 
+### Database Configuration
+
+By default, this template uses an `SQLite` database to store session data. SQLite is sufficient for development purpose only, it may not be suitable for all production scenarios. The best database for your application depends on your data requirements and query patterns.
+
+If your app requires a more robust database solution, you can easily extend the base storage class provided by the `fdk-extension-javascript` library to use a database of your choice for session data. Here are some databases that we support by default:
+
+- SQLite
+- Memory Storage
+- Redis
+
+Feel free to configure and run your preferred database on your server to meet your specific needs.
+
 ### Tech Stack
 1. [fdk-client-javascript](https://github.com/gofynd/fdk-client-javascript): This library contains all the methods to call Fynd platform APIs.
 2. [fdk-extension-javascript](https://github.com/gofynd/fdk-extension-javascript): This library streamlines the setup of authentication for accessing Fynd Platform APIs. It also simplifies the process of subscribing to webhooks for receiving real-time notifications.
