@@ -46,9 +46,9 @@ npm install --prefix ./frontend
 
 
 ## Local development
-To start development locally you need to start tunnel on `FRONTEND_PORT` defined in .env file to start tunnel you can use `fdk extension preview-url --port  <FRONTEND_PORT>`, it will provide partners panel URL  
+To start development locally you need to start tunnel on `FRONTEND_PORT` defined in .env file to start tunnel you can use `fdk extension preview --port  <FRONTEND_PORT>`, it will provide partners panel URL  
 
-> Before visiting partners panel URL provided by preview-url command you need to hit below command in new terminal
+> Before visiting partners panel URL provided by extension preview command you need to hit below command in new terminal
 
 This command will start backend and frontend server in watch mode and changes you make locally will be directly visible in partners panel
 ```shell
