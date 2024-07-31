@@ -2,12 +2,11 @@ module.exports = {
     verbose: true,
     testEnvironment: 'node',
     coverageReporters: ['json-summary', 'lcov'],
-    globalTeardown: './__tests__/unit/global/test-teardown-globals.js',
-    testPathIgnorePatterns: ['/web/'],
+    testPathIgnorePatterns: ['/frontend/'],
     setupFiles: ['./jest.init.js'],
     testMatch: [
-        '**/__tests__/**/*.spec.[jt]s?(x)',
-        '!**/__tests__/unit/global/**/*.[jt]s?(x)'
+        '**/test/**/*.spec.[jt]s?(x)',
+        '!**/test/global/**/*.[jt]s?(x)'
     ],
     moduleFileExtensions: ['js', 'json'],
     transform: {},
@@ -19,7 +18,7 @@ module.exports = {
     collectCoverageFrom: [
         '**/*.js',  // Adjust this pattern to include the files you want to be covered
         '!**/node_modules/**',
-        '!**/__tests__/**',
+        '!**/test/**',
         '!**/jest.config.js',
         '!**/index.js',
         "!**/coverage/**",

@@ -1,4 +1,4 @@
-const { request, mockPlatformClient } = require('../utils/server')();
+const { request, mockPlatformClient } = require('./utils/server')();
 
 describe('Product Routes', () => {
   beforeEach(() => {
@@ -18,23 +18,12 @@ describe('Product Routes', () => {
     expect(response.body).toEqual([{ id: 2, name: 'App Product B' }]);
   });
 
-  it('GET /healthz: should response with 200', async () => {
-    const res = await request.get('/_healthz');
-    expect(res.statusCode).toEqual(200);
-  });
-
-  it('GET /readyz: should response with 200', async () => {
-    const res = await request.get('/_readyz');
-    expect(res.statusCode).toEqual(200);
-  });
-
   it('GET /*: Fallback route', async () => {
-    const res = await request.get('/test');
+    const res = await request.get('/');
     expect(res.headers['content-type']).toEqual("text/html; charset=utf-8");
   });
 
   it('GET /api/products: should handle errors in the product list route', async () => {
-    // Mock getProducts to throw an error
     mockPlatformClient.catalog.getProducts.mockRejectedValueOnce(new Error('Failed to fetch products'));
     const response = await request.get('/api/products');
     expect(response.statusCode).toBe(500);

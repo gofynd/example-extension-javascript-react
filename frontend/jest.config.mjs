@@ -2,7 +2,7 @@ export default {
   verbose: true,
   coverageReporters: ["json-summary", "lcov", "cobertura"],
   moduleFileExtensions: ["js", "jsx", "json", "node"],
-  testMatch: ["**/__tests__/**/*.+(js|jsx|ts|tsx)", "**/?(*.)+(spec|test).+(js|jsx|ts|tsx)"],
+  testMatch: ["**/test/**/*.+(js|jsx|ts|tsx)", "**/?(*.)+(spec|test).+(js|jsx|ts|tsx)"],
   transformIgnorePatterns: [
     "/node_modules/(?!url-join)" // Exclude everything except url-join
   ],

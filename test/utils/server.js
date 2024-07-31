@@ -1,6 +1,6 @@
 let request = null;
 const supertest = require('supertest');
-const app = require('../../../server.js')
+const app = require('../../server');
 const express = require('express');
 
 // Create a new instance of the app with the mock middleware

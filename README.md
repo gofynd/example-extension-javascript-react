@@ -13,7 +13,7 @@ This project outlines the development process for a Fynd extension that displays
 * You have created a [partner account](https://partners.fynd.com).
 * You have created a [development account](https://partners.fynd.com/help/docs/partners/testing-extension/development-acc#create-development-account) and [populated test data](https://partners.fynd.com/help/docs/partners/testing-extension/development-acc#populate-test-data) in it.
 * You have created an [extension](https://partners.fynd.com) in partner panel. if not, you can follow [extension guide](https://partners.fynd.com/help/docs/partners/getting-started/create-extension) to create an extension.
-* Update below environment variable value in `.env` file, This detail you can get from partners panel
+* Update below environment variable value in `.env` file, This details you can get from partners panel
     - EXTENSION_API_KEY:`Extension api key`
     - EXTENSION_API_SECRET: `Extension api secret`
 
@@ -26,23 +26,23 @@ This project outlines the development process for a Fynd extension that displays
 **Install backend dependency**
 
 Using yarn:
-```shell
+```
 yarn install
 ```
 Using npm:
-```shell
+```
 npm install
 ```
 
 **Install frontend dependency**
 
 Using yarn:
-```shell
-yarn install --cwd ./web
+```
+yarn install --cwd ./frontend
 ```
 Using npm:
-```shell
-npm install --prefix ./web
+```
+npm install --prefix ./frontend
 ```
 
 
@@ -52,7 +52,7 @@ To start development locally you need to start tunnel on `FRONTEND_PORT` defined
 > Before visiting partners panel URL provided by preview-url command you need to hit below command in new terminal
 
 This command will start backend and frontend server in watch mode and changes you make locally will be directly visible in partners panel
-```shell
+```
 node start-dev.js
 ```
 
@@ -60,12 +60,12 @@ node start-dev.js
 Build frontend.
 
 Using yarn:
-```shell
-cd web && yarn run build
+```
+cd frontend && yarn run build
 ```
 Using npm:
-```shell
-cd web && npm run build
+```
+cd frontend && npm run build
 ```
 
 
@@ -76,7 +76,7 @@ When developing your application, the Vite development server is configured to h
 ### Proxy Configuration
 
 The Vite development server uses the following proxy configuration to direct API requests:
-```js
+```
 const proxyOptions = {
   target: `http://127.0.0.1:${process.env.BACKEND_PORT}`,
   changeOrigin: false,

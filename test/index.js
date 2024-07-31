@@ -1,6 +1,4 @@
-const server = require('../../server'); // Import the server module
-
-jest.mock('./sqlite.init'); // Mock the SQLite initialization
+const server = require('../server'); // Import the server module
 
 describe('Test server', () => {
     it('Should start the server on the specified port', () => {
