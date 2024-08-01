@@ -67,23 +67,6 @@ Using npm:
 cd frontend && npm run build
 ```
 
-
-## API Proxy for HMR
-
-When developing your application, the Vite development server is configured to handle API requests through a proxy. This setup forwards API calls to a backend server, specified by the  `BACKEND_PORT` environment variable, ensuring a smooth integration between your frontend and backend during development.
-
-### Proxy Configuration
-
-The Vite development server uses the following proxy configuration to direct API requests:
-```js
-const proxyOptions = {
-  target: `http://127.0.0.1:${process.env.BACKEND_PORT}`,
-  changeOrigin: false,
-  secure: true,
-  ws: false
-}
-```
-
 ## Database Configuration
 
 By default, this template uses an `SQLite` database to store session data. SQLite is sufficient for development purpose only, it may not be suitable for all production scenarios. The best database for your application depends on your data requirements and query patterns.
