@@ -10,7 +10,7 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "frontend/**"
+      "web/**"
     ]
   },
   "dependencies": {

@@ -2,7 +2,7 @@ module.exports = {
     verbose: true,
     testEnvironment: 'node',
     coverageReporters: ['json-summary', 'lcov'],
-    testPathIgnorePatterns: ['/frontend/'],
+    testPathIgnorePatterns: ['/web/'],
     setupFiles: ['./jest.init.js'],
     testMatch: [
         '**/test/**/*.spec.[jt]s?(x)',

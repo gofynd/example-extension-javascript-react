@@ -6,7 +6,7 @@ const viteCommand = 'npm run dev';
 
 const { result } = concurrently([
   { command: nodeServerCommand, name: 'backend', prefixColor: 'blue' },
-  { command: viteCommand, name: 'frontend', prefixColor: 'green', cwd: 'frontend' }
+  { command: viteCommand, name: 'frontend', prefixColor: 'green', cwd: 'web/frontend' }
 ],{
   killOthers: ['failure'],
   restartTries: 3
