@@ -34,8 +34,8 @@ const fdkExtension = setupFdk({
 });
 
 const STATIC_PATH = process.env.NODE_ENV === 'production'
-    ? path.join(process.cwd(), 'web', 'frontend', 'dist')
-    : path.join(process.cwd(), 'web' ,'frontend');
+    ? path.join(process.cwd(), 'frontend', 'dist')
+    : path.join(process.cwd(), 'frontend');
     
 const app = express();
 const platformApiRoutes = fdkExtension.platformApiRoutes;
