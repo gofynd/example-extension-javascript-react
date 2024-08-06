@@ -84,7 +84,7 @@ productRouter.get('/application/:application_id', async function view(req, res, 
 platformApiRoutes.use('/products', productRouter);
 
 // If you are adding routes outside of the /api path, 
-// remember to also add a proxy rule for them in /web/frontend/vite.config.js
+// remember to also add a proxy rule for them in /frontend/vite.config.js
 app.use('/api', platformApiRoutes);
 
 // Serve the React app for all other routes

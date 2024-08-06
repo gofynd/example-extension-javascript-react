@@ -5,5 +5,5 @@ COPY ./package.json .
 COPY ./package-lock.json .
 RUN npm install
 COPY . .
-RUN cd web/frontend && npm install && npm run build
+RUN cd frontend && npm install && npm run build
 CMD ["npm", "run", "start:prod"]
