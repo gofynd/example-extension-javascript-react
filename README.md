@@ -9,54 +9,27 @@ This project outlines the development process for a Fynd extension that displays
 
 ## Quick start
 ### Prerequisites
-* You have installed [Node 16.X.X](https://docs.npmjs.com/) or above version.
+* You have installed globally [Node 16.X.X](https://docs.npmjs.com/) or above version.
 * You have fdk-cli installed [install](https://github.com/gofynd/fdk-cli)
 * You have created a [partner account](https://partners.fynd.com).
 * You have created a [development account](https://partners.fynd.com/help/docs/partners/testing-extension/development-acc#create-development-account) and [populated test data](https://partners.fynd.com/help/docs/partners/testing-extension/development-acc#populate-test-data) in it.
-* You have created an [extension](https://partners.fynd.com) in partner panel. if not, you can follow [extension guide](https://partners.fynd.com/help/docs/partners/getting-started/create-extension) to create an extension.
-* Update below environment variable value in `.env` file, This details you can get from partners panel
-    - EXTENSION_API_KEY:`Extension api key`
-    - EXTENSION_API_SECRET: `Extension api secret`
 
 
-
-## Install dependencies
-
-**Install backend dependency**
-
-Using yarn:
+## Install Template Locally
+To initialize your extension template locally, run the following command:
 ```shell
-yarn install
-```
-Using npm:
-```shell
-npm install
+fdk extension init
 ```
 
-**Install frontend dependency**
-
-Using yarn:
+## Local Development
+To start local development, execute the following command:
 ```shell
-yarn install --cwd ./frontend
+fdk extension preview
 ```
-Using npm:
-```shell
-npm install --prefix ./frontend
-```
+This command will provide a partner’s panel URL where you can interact with your extension.
 
-
-## Local development
-To start development locally you need to start tunnel on `FRONTEND_PORT` defined in .env file to start tunnel you can use `fdk extension preview --port <FRONTEND_PORT>`, it will provide partners panel URL  
-
-> Before visiting partners panel URL provided by extension preview command you need to hit below command in new terminal
-
-This command will start backend and frontend server in watch mode and changes you make locally will be directly visible in partners panel
-```shell
-node start-dev.js
-```
-
-## Build for production deployment
-Build frontend.
+## Build for production
+Build the frontend using the following commands:
 
 Using yarn:
 ```shell
