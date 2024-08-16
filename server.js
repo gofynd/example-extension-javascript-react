@@ -30,7 +30,17 @@ const fdkExtension = setupFdk({
         }
     },
     storage: new SQLiteStorage(sqliteInstance,"exapmple-fynd-platform-extension"), // add your prefix
-    access_mode: "online"
+    access_mode: "online",
+    webhook_config: {
+        api_path: "/api/product-delete",
+        notification_email: "dev@fynd.com",
+        event_map: {
+            "company/product/delete": {
+                "handler": (eventName) => {  console.log(eventName)},
+                "version": '1'
+            }
+        }
+    },
 });
 
 const STATIC_PATH = process.env.NODE_ENV === 'production'
@@ -53,6 +63,18 @@ app.use(serveStatic(STATIC_PATH, { index: false }));
 
 // FDK extension handler and API routes (extension launch routes)
 app.use("/", fdkExtension.fdkHandler);
+
+// Route to handle webhook events and process it.
+app.post('/api/product-delete', async function(req, res) {
+    try {
+      console.log(`Webhook Event: ${req.body.event} received`)
+      await fdkExtension.webhookRegistry.processWebhook(req);
+      return res.status(200).json({"success": true});
+    } catch(err) {
+      console.log(`Error Processing ${req.body.event} Webhook`);
+      return res.status(500).json({"success": false});
+    }
+})
 
 productRouter.get('/', async function view(req, res, next) {
     try {
