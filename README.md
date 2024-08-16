@@ -9,7 +9,7 @@ This project outlines the development process for a Fynd extension that displays
 
 ## Quick start
 ### Prerequisites
-* You have installed globally [Node 16.X.X](https://docs.npmjs.com/) or above version.
+* You have installed globally [Node 18.X.X](https://docs.npmjs.com/) or above version.
 * You have fdk-cli installed [install](https://github.com/gofynd/fdk-cli)
 * You have created a [partner account](https://partners.fynd.com).
 * You have created a [development account](https://partners.fynd.com/help/docs/partners/testing-extension/development-acc#create-development-account) and [populated test data](https://partners.fynd.com/help/docs/partners/testing-extension/development-acc#populate-test-data) in it.
@@ -28,17 +28,24 @@ fdk extension preview
 ```
 This command will provide a partner’s panel URL where you can interact with your extension. For more information, please read this [guide](https://github.com/gofynd/fdk-cli?tab=readme-ov-file#extension-commands).
 
-## Build for production
-Build the frontend using the following commands:
+## Docker Instructions
 
-Using yarn:
-```shell
-cd frontend && yarn run build
-```
-Using npm:
-```shell
-cd frontend && npm run build
-```
+To run the application using Docker in Production environment, follow these steps:
+* Build the Docker image:
+    ```shell
+    docker build -t extension .
+    ```
+* Run the Docker container
+  ```
+  docker run -p 8080:8080 extension 
+  ```
+
+To Run the extension with Docker locally, ensure you first prepare your environment:
+
+- Copy the .env.example file and rename it to .env at the root of your project.
+- Fill in all the required values in the .env file.
+
+After setting up your .env file, you can proceed with the Docker commands listed above to build and run your extension locally. 
 
 ## Database Configuration
 
