@@ -5,8 +5,8 @@ const path = require("path");
 const sqlite3 = require('sqlite3').verbose();
 const serveStatic = require("serve-static");
 const { readFileSync } = require('fs');
-const { setupFdk } = require("fdk-extension-javascript/express");
-const { SQLiteStorage } = require("fdk-extension-javascript/express/storage");
+const { setupFdk } = require("@gofynd/fdk-extension-javascript/express");
+const { SQLiteStorage } = require("@gofynd/fdk-extension-javascript/express/storage");
 const sqliteInstance = new sqlite3.Database('session_storage.db');
 const productRouter = express.Router();
 
