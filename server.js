@@ -15,6 +15,7 @@ const fdkExtension = setupFdk({
     api_key: process.env.EXTENSION_API_KEY,
     api_secret: process.env.EXTENSION_API_SECRET,
     base_url: process.env.EXTENSION_BASE_URL,
+    cluster: process.env.FP_API_DOMAIN,
     callbacks: {
         auth: async (req) => {
             // Write you code here to return initial launch url after auth process complete
