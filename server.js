@@ -15,6 +15,7 @@ const fdkExtension = setupFdk({
     api_key: process.env.EXTENSION_API_KEY,
     api_secret: process.env.EXTENSION_API_SECRET,
     base_url: process.env.EXTENSION_BASE_URL,
+    cluster: process.env.FP_API_DOMAIN,
     callbacks: {
         auth: async (req) => {
             // Write you code here to return initial launch url after auth process complete
@@ -33,7 +34,7 @@ const fdkExtension = setupFdk({
     access_mode: "online",
     webhook_config: {
         api_path: "/api/webhook-events",
-        notification_email: "dev@fynd.com",
+        notification_email: "useremail@example.com",
         event_map: {
             "company/product/delete": {
                 "handler": (eventName) => {  console.log(eventName)},
@@ -44,7 +45,7 @@ const fdkExtension = setupFdk({
 });
 
 const STATIC_PATH = process.env.NODE_ENV === 'production'
-    ? path.join(process.cwd(), 'frontend', 'dist')
+    ? path.join(process.cwd(), 'frontend', 'public' , 'dist')
     : path.join(process.cwd(), 'frontend');
     
 const app = express();
