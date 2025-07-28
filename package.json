@@ -14,8 +14,8 @@
     ]
   },
   "dependencies": {
-    "@gofynd/fdk-client-javascript": "^1.5.2",
-    "@gofynd/fdk-extension-javascript": "^1.1.0",
+    "@gofynd/fdk-client-javascript": "^3.4.2",
+    "@gofynd/fdk-extension-javascript": "^1.1.4",
     "axios": "^1.7.2",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
