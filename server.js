@@ -7,9 +7,12 @@ const serveStatic = require("serve-static");
 const { readFileSync } = require('fs');
 const { setupFdk } = require("@gofynd/fdk-extension-javascript/express");
 const { SQLiteStorage } = require("@gofynd/fdk-extension-javascript/express/storage");
+const { fdkBillingInstance } = require('./billing');
+const plans = require('./plans');
+
 const sqliteInstance = new sqlite3.Database('session_storage.db');
 const productRouter = express.Router();
-
+const billingRouter = express.Router();
 
 const fdkExtension = setupFdk({
     api_key: process.env.EXTENSION_API_KEY,
@@ -20,9 +23,9 @@ const fdkExtension = setupFdk({
         auth: async (req) => {
             // Write you code here to return initial launch url after auth process complete
             if (req.query.application_id)
-                return `${req.extension.base_url}/company/${req.query['company_id']}/application/${req.query.application_id}`;
+                return `${req.extension.base_url}/company/${req.query['company_id']}/application/${req.query.application_id}/billing`;
             else
-                return `${req.extension.base_url}/company/${req.query['company_id']}`;
+                return `${req.extension.base_url}/company/${req.query['company_id']}/billing`;
         },
         
         uninstall: async (req) => {
@@ -62,6 +65,120 @@ app.use(bodyParser.json({
 // Serve static files from the React dist directory
 app.use(serveStatic(STATIC_PATH, { index: false }));
 
+// Admin endpoints for database management
+app.post('/admin/initialize-database', async function initializeDatabase(req, res, next) {
+    try {
+        const existingPlans = await fdkBillingInstance.planModel.model.find({});
+        
+        if (existingPlans.length > 0) {
+            return res.status(400).json({ 
+                error: 'Database already initialized', 
+                existingPlansCount: existingPlans.length,
+                message: 'Plans already exist in database. Use /admin/reset-database to clear and reinitialize.'
+            });
+        }
+        
+        const createdPlans = [];
+        for (const plan of plans) {
+            try {
+                const createdPlan = await fdkBillingInstance.planModel.createPlan(plan);
+                createdPlans.push(createdPlan);
+            } catch (error) {
+                console.error(`Error creating plan ${plan.name}:`, error.message);
+            }
+        }
+        
+        return res.json({ 
+            success: true,
+            message: 'Database initialized successfully',
+            createdPlansCount: createdPlans.length,
+            plans: createdPlans.map(plan => ({
+                id: plan._id,
+                name: plan.name,
+                pricing_type: plan.pricing_type,
+                interval: plan.interval,
+                price: plan.price
+            }))
+        });
+        
+    } catch (error) {
+        console.error('Error initializing database:', error);
+        res.status(500).json({ 
+            error: 'Failed to initialize database',
+            message: error.message 
+        });
+    }
+});
+
+app.post('/admin/reset-database', async function resetDatabase(req, res, next) {
+    try {
+        const deleteResult = await fdkBillingInstance.planModel.model.deleteMany({});
+        const deleteSubscriptionsResult = await fdkBillingInstance.subscriptionModel.model.deleteMany({});
+        
+        const createdPlans = [];
+        for (const plan of plans) {
+            try {
+                const createdPlan = await fdkBillingInstance.planModel.createPlan(plan);
+                createdPlans.push(createdPlan);
+            } catch (error) {
+                console.error(`Error creating plan ${plan.name}:`, error.message);
+            }
+        }
+        
+        return res.json({ 
+            success: true,
+            message: 'Database reset successfully',
+            deletedPlans: deleteResult.deletedCount,
+            deletedSubscriptions: deleteSubscriptionsResult.deletedCount,
+            createdPlansCount: createdPlans.length,
+            plans: createdPlans.map(plan => ({
+                id: plan._id,
+                name: plan.name,
+                pricing_type: plan.pricing_type,
+                interval: plan.interval,
+                price: plan.price
+            }))
+        });
+        
+    } catch (error) {
+        console.error('Error resetting database:', error);
+        res.status(500).json({ 
+            error: 'Failed to reset database',
+            message: error.message 
+        });
+    }
+});
+
+app.get('/admin/database-status', async function getDatabaseStatus(req, res, next) {
+    try {
+        const plansCount = await fdkBillingInstance.planModel.model.countDocuments({});
+        const subscriptionsCount = await fdkBillingInstance.subscriptionModel.model.countDocuments({});
+        const activePlans = await fdkBillingInstance.planModel.model.find({ is_active: true });
+        
+        return res.json({
+            databaseStatus: 'connected',
+            plansCount: plansCount,
+            activePlansCount: activePlans.length,
+            subscriptionsCount: subscriptionsCount,
+            isInitialized: plansCount > 0,
+            plans: activePlans.map(plan => ({
+                id: plan._id,
+                name: plan.name,
+                pricing_type: plan.pricing_type,
+                interval: plan.interval,
+                price: plan.price
+            }))
+        });
+        
+    } catch (error) {
+        console.error('Error getting database status:', error);
+        res.status(500).json({ 
+            error: 'Failed to get database status',
+            message: error.message 
+        });
+    }
+});
+
 // FDK extension handler and API routes (extension launch routes)
 app.use("/", fdkExtension.fdkHandler);
 
@@ -69,14 +186,15 @@ app.use("/", fdkExtension.fdkHandler);
 app.post('/api/webhook-events', async function(req, res) {
     try {
       console.log(`Webhook Event: ${req.body.event} received`)
-      await fdkExtension.webhookRegistry.processWebhook(req);
-      return res.status(200).json({"success": true});
+        await fdkExtension.webhookRegistry.processWebhook(req);
+        return res.status(200).json({"success": true});
     } catch(err) {
-      console.log(`Error Processing ${req.body.event} Webhook`);
-      return res.status(500).json({"success": false});
+        console.log(`Error Processing ${req.body.event} Webhook`);
+        return res.status(500).json({"success": false});
     }
 })
 
+// Product routes
 productRouter.get('/', async function view(req, res, next) {
     try {
         const {
@@ -103,8 +221,152 @@ productRouter.get('/application/:application_id', async function view(req, res, 
     }
 });
 
+// Billing routes
+billingRouter.get('/plans', async function getPlans(req, res, next) {
+    try {
+        const companyId = req.query.company_id;
+        const allPlans = await fdkBillingInstance.planModel.model.find({ is_active: true });
+        
+        const plansWithId = allPlans.map(plan => ({
+            ...plan.toObject(),
+            id: plan._id.toString()
+        }));
+        
+        const availablePlans = plansWithId.filter(plan => {
+            if (!plan.company_id || plan.company_id.length === 0) {
+                return true;
+            }
+            return plan.company_id.includes(parseInt(companyId));
+        });
+        
+        return res.json({ plans: availablePlans });
+    } catch (err) {
+        console.error('Error getting plans:', err);
+        next(err);
+    }
+});
+
+billingRouter.get('/subscription', async function getSubscription(req, res, next) {
+    try {
+        const companyId = req.query.company_id;
+        const subscription = await fdkBillingInstance.getActiveSubscription(companyId);
+        return res.json(subscription);
+    } catch (err) {
+        console.error('Error getting subscription:', err);
+        return res.json(null);
+    }
+});
+
+billingRouter.post('/subscribe', async function subscribe(req, res, next) {
+    try {
+        const { company_id, plan_id, callback_url } = req.body;
+        const { platformClient } = req;
+        
+        if (!plan_id) {
+            return res.status(400).json({ error: 'Plan ID is required' });
+        }
+        
+        const plan = await fdkBillingInstance.planModel.model.findById(plan_id);
+        
+        if (!plan) {
+            return res.status(404).json({ error: 'Plan not found' });
+        }
+        
+        const callbackUrl = `${process.env.EXTENSION_BASE_URL}/company/${company_id}/subscription-status`;
+        
+        const subscription = await fdkBillingInstance.subscribePlan(
+            company_id, 
+            plan_id,
+            platformClient, 
+            callbackUrl
+        );
+        
+        return res.json(subscription);
+    } catch (err) {
+        console.error('Error in subscribe:', err);
+        next(err);
+    }
+});
+
+billingRouter.get('/subscription/update-status', async function updateSubscriptionStatusGet(req, res, next) {
+    try {
+        const { company_id, subscription_id, approved } = req.query;
+        
+        if (!company_id || !subscription_id) {
+            return res.redirect(`/company/${company_id || '3'}/billing`);
+        }
+        
+        if (approved !== 'true') {
+            return res.redirect(`/company/${company_id}/billing`);
+        }
+        
+        const { platformClient } = req;
+        
+        if (!platformClient) {
+            return res.redirect(`/company/${company_id}/billing`);
+        }
+        
+        const subscription = await fdkBillingInstance.updateSubscriptionStatus(
+            company_id,
+            subscription_id,
+            platformClient
+        );
+        
+        const redirectUrl = `${process.env.EXTENSION_BASE_URL}/company/${company_id}/billing`;
+        return res.redirect(redirectUrl);
+        
+    } catch (err) {
+        console.error('Error in subscription update callback:', err);
+        const companyId = req.query.company_id || '3';
+        return res.redirect(`/company/${companyId}/billing`);
+    }
+});
+
+billingRouter.post('/subscription/update-status', async function updateSubscriptionStatus(req, res, next) {
+    try {
+        const { company_id, platform_subscription_id } = req.body;
+        const { platformClient } = req;
+        
+        const subscription = await fdkBillingInstance.updateSubscriptionStatus(
+            company_id,
+            platform_subscription_id,
+            platformClient
+        );
+        
+        const redirectUrl = `${process.env.EXTENSION_BASE_URL}/company/${company_id}/billing`;
+        return res.redirect(redirectUrl);
+    } catch (err) {
+        next(err);
+    }
+});
+
+billingRouter.post('/subscription/:platform_subscription_id/status', async function updateSubscriptionStatusById(req, res, next) {
+    try {
+        const { platform_subscription_id } = req.params;
+        const { platformClient } = req;
+        const companyId = req.headers['x-company-id'];
+        
+        if (!platform_subscription_id || !companyId) {
+            return res.status(400).json({ error: 'Missing required parameters' });
+        }
+        
+        const subscription = await fdkBillingInstance.updateSubscriptionStatus(
+            companyId,
+            platform_subscription_id,
+            platformClient
+        );
+        
+        return res.json(subscription);
+        
+    } catch (err) {
+        console.error('Error updating subscription status:', err);
+        next(err);
+    }
+});
+
 // FDK extension api route which has auth middleware and FDK client instance attached to it.
 platformApiRoutes.use('/products', productRouter);
+platformApiRoutes.use('/billing', billingRouter);
 
 // If you are adding routes outside of the /api path, 
 // remember to also add a proxy rule for them in /frontend/vite.config.js
