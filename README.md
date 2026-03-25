@@ -44,6 +44,7 @@ To Run the extension with Docker locally, ensure you first prepare your environm
 
 - Copy the .env.example file and rename it to .env at the root of your project.
 - Fill in all the required values in the .env file.
+- Never commit `.env` or any file that contains real environment variables and secrets; use `.env.example` (with placeholder values only) for documentation in the repository.
 
 After setting up your .env file, you can proceed with the Docker commands listed above to build and run your extension locally. 
 
